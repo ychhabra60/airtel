@@ -10,6 +10,7 @@ import static java.util.stream.Collectors.toList;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,35 +26,38 @@ public class TraderController {
     private TraderService traderService;
     
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void registerTrader(@RequestBody @Valid Trader trader) {
-        traderService.registerTrader(trader);
+    public ResponseEntity registerTrader(@RequestBody @Valid Trader trader) {
+        if(traderService.registerTrader(trader))
+            return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
-    
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteTraderById(@PathVariable Long id) {
-        traderService.deleteTraderById(id);
+    public ResponseEntity deleteTraderById(@PathVariable Long id) {
+        if(traderService.deleteTraderById(id))
+            return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-    
+
     @RequestMapping(method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteTraderById(@RequestParam("email") String email) {
-        traderService.deleteTraderByEmail(email);
+    public ResponseEntity deleteTraderById(@RequestParam("email") String email) {
+        if(traderService.deleteTraderByEmail(email))
+            return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-    
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public TraderDTO getTraderById(@PathVariable Long id) {
         return new TraderDTO(traderService.getTraderById(id));
     }
-    
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public TraderDTO getTraderByEmail(@RequestParam("email") String email) {
         return new TraderDTO(traderService.getTraderByEmail(email));
     }
-    
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<TraderDTO> getAllTraders() {
@@ -62,16 +66,18 @@ public class TraderController {
                 .map(TraderDTO::new)
                 .collect(toList());
     }
-    
+
     @RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateTrader(@RequestBody @Valid UpdatedTraderDTO trader) {
-        traderService.updateTrader(trader);
+    public ResponseEntity updateTrader(@RequestBody @Valid UpdatedTraderDTO trader) {
+        if(traderService.updateTrader(trader))
+        return new ResponseEntity((HttpStatus.OK));
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
     
     @RequestMapping(value = "/add", method = RequestMethod.PUT, consumes = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public void addMoney(@RequestBody @Valid AddMoneyTraderDTO trader) {
-        traderService.addMoney(trader);
+    public ResponseEntity addMoney(@RequestBody @Valid AddMoneyTraderDTO trader) {
+        if(traderService.addMoney(trader))
+            return new ResponseEntity((HttpStatus.OK));
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
 }

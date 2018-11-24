@@ -1,14 +1,14 @@
 package com.hackerrank.trading.dto;
 
 public class AddMoneyTraderDTO {
-    private final String email;
-    private final Float amount;
+    private  String email;
+    private Float amount;
     
     public AddMoneyTraderDTO(String email, Float amount) {
         this.email = email;
         this.amount = amount;
     }
-    
+    public AddMoneyTraderDTO(){}
     public String getEmail() {
         return this.email;
     }

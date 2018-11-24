@@ -5,6 +5,7 @@ import com.hackerrank.trading.service.StockService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,9 +19,12 @@ public class StockController {
     private StockService stockService;
     
     @RequestMapping(value = "/{symbol}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public Stock getStockBySymbol(@PathVariable String symbol) {
-        return stockService.getStockBySymbol(symbol);
+
+    public ResponseEntity getStockBySymbol(@PathVariable String symbol) {
+        Stock stock=stockService.getStockBySymbol(symbol);
+        if(stock!=null)
+            return new ResponseEntity(stock,HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }
     
     @RequestMapping(method = RequestMethod.GET)

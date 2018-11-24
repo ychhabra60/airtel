@@ -4,21 +4,25 @@ import com.hackerrank.trading.model.Trader;
 import java.text.SimpleDateFormat;
 
 public class TraderDTO {
-    private final Long id;
-    private final String name;
-    private final String email;
-    private final Float balance;
+    private  Long id;
+    private  String name;
+    private String email;
+    private  Float balance;
     
-    private final String creationTime;
-    private final String modificationTime;
-    
+    private  String created_at;
+    private  String updated_at;
+    public TraderDTO(){}
     public TraderDTO(Trader trader) {
         this.id = trader.getId();
         this.name = trader.getName();
         this.email = trader.getEmail();
         this.balance = trader.getBalance();
-        this.creationTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(trader.getCreationTime());
-        this.modificationTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(trader.getModificationTime());
+        if(trader.getCreated_at()!=null)
+        this.created_at = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(trader.getCreated_at());
+        else this.created_at ="";
+        if(trader.getModified_at()!=null)
+        this.updated_at = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(trader.getModified_at());
+        else this.updated_at ="";
     }
     
     public Long getId() {
@@ -37,11 +41,11 @@ public class TraderDTO {
         return this.balance;
     }
     
-    public String getCreationTime() {
-        return this.creationTime;
+    public String getCreated_at() {
+        return this.created_at;
     }
     
-    public String getModificationTime() {
-        return this.modificationTime;
+    public String getUpdated_at() {
+        return this.updated_at;
     }
 }

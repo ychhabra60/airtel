@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Trader implements Serializable {
+public class Trader implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -18,8 +18,8 @@ public class Trader implements Serializable {
     
     private Float balance;
     
-    private Timestamp creationTime;
-    private Timestamp modificationTime;
+    private Timestamp created_at;
+    private Timestamp modified_at;
 
     public Trader() {
     }
@@ -58,11 +58,19 @@ public class Trader implements Serializable {
         this.balance = balance;
     }
     
-    public Timestamp getCreationTime() {
-        return this.creationTime;
+    public Timestamp getCreated_at() {
+        return this.created_at;
     }
     
-    public Timestamp getModificationTime() {
-        return this.modificationTime;
+    public Timestamp getModified_at() {
+        return this.modified_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public void setModified_at(Timestamp modified_at) {
+        this.modified_at = modified_at;
     }
 }
