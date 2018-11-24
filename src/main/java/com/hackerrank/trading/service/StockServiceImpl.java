@@ -10,8 +10,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("stockService")
+@Transactional
 public class StockServiceImpl implements StockService {
     @Autowired
     private StockRepository stockRepository;
@@ -19,7 +21,7 @@ public class StockServiceImpl implements StockService {
     @Override
     public Stock getStockBySymbol(String symbol) {
         Optional<Stock> st=stockRepository.findById(symbol);
-        if(st!=null&&st.get()!=null)
+        if(st.isPresent())
         return st.get();
         return null;
     }

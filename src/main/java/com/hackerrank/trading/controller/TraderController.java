@@ -39,23 +39,27 @@ public class TraderController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public ResponseEntity deleteTraderById(@RequestParam("email") String email) {
+    @RequestMapping(value = "/{email}" ,method = RequestMethod.DELETE)
+    public ResponseEntity deleteTraderByEmail(@RequestParam("email") String email) {
         if(traderService.deleteTraderByEmail(email))
             return new ResponseEntity(HttpStatus.OK);
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public TraderDTO getTraderById(@PathVariable Long id) {
-        return new TraderDTO(traderService.getTraderById(id));
+    public ResponseEntity getTraderById(@PathVariable Long id) {
+        Trader trader = traderService.getTraderById(id);
+        if(trader==null)
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(new TraderDTO(trader),HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public TraderDTO getTraderByEmail(@RequestParam("email") String email) {
-        return new TraderDTO(traderService.getTraderByEmail(email));
+    @RequestMapping(value = "/{email}" ,method = RequestMethod.GET)
+    public ResponseEntity getTraderByEmail(@RequestParam("email") String email) {
+        Trader trader = traderService.getTraderByEmail(email);
+        if(trader==null)
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        return new ResponseEntity(new TraderDTO(trader),HttpStatus.OK);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -71,13 +75,13 @@ public class TraderController {
     public ResponseEntity updateTrader(@RequestBody @Valid UpdatedTraderDTO trader) {
         if(traderService.updateTrader(trader))
         return new ResponseEntity((HttpStatus.OK));
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
     
     @RequestMapping(value = "/add", method = RequestMethod.PUT, consumes = "application/json")
     public ResponseEntity addMoney(@RequestBody @Valid AddMoneyTraderDTO trader) {
         if(traderService.addMoney(trader))
             return new ResponseEntity((HttpStatus.OK));
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 }
