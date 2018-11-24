@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockController {
     @Autowired
     private StockService stockService;
-    
+
     @RequestMapping(value = "/{symbol}", method = RequestMethod.GET)
 
     public ResponseEntity getStockBySymbol(@PathVariable String symbol) {
         Stock stock=stockService.getStockBySymbol(symbol);
         if(stock!=null)
             return new ResponseEntity(stock,HttpStatus.OK);
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-    
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Stock> getAllStocks() {
