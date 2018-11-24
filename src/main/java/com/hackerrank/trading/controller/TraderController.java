@@ -39,7 +39,7 @@ public class TraderController {
         return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/{email}" ,method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity deleteTraderByEmail(@RequestParam("email") String email) {
         if(traderService.deleteTraderByEmail(email))
             return new ResponseEntity(HttpStatus.OK);
@@ -54,7 +54,7 @@ public class TraderController {
         return new ResponseEntity(new TraderDTO(trader),HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{email}" ,method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getTraderByEmail(@RequestParam("email") String email) {
         Trader trader = traderService.getTraderByEmail(email);
         if(trader==null)
